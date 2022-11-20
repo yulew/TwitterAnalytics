@@ -32,7 +32,7 @@ def get_user_info(screen_name):
 
 
 
-def get_tweets(key_string=None, language='en', number=500, max_id=2**64-1, result_type='recent'):
+def get_tweets(key_string=None, language='en', number=500, max_id=2**64-1, result_type='recent', include_rtws=False):
     """
 
     :param key_string:
@@ -45,8 +45,13 @@ def get_tweets(key_string=None, language='en', number=500, max_id=2**64-1, resul
     """
     resps = []
 
-    tweets = tweepy.Cursor(api.search_tweets, q=key_string, lang=language, tweet_mode="extended",
-                           result_type=result_type,max_id=max_id).items(number)
+    if not include_rtws:
+        tweets = tweepy.Cursor(api.search_tweets, q= key_string+ ' -filter:retweets', lang=language, tweet_mode="extended",
+                               result_type=result_type,max_id=max_id).items(number)
+    else:
+        tweets = tweepy.Cursor(api.search_tweets, q=key_string, lang=language,
+                               tweet_mode="extended",
+                               result_type=result_type, max_id=max_id).items(number)
 
     tweets_json = []
     for tweet in tweets:
@@ -65,23 +70,40 @@ def get_tweets(key_string=None, language='en', number=500, max_id=2**64-1, resul
         resp['is_quote_status'] = tweet['is_quote_status']
         resp['retweet_count'] = tweet['retweet_count']
         resp['favorite_count'] = tweet['favorite_count']
+        resp['retweeted'] = tweet['retweeted']
 
         resps.append(resp)
 
-    return resps, resps[-1]['tweet_id']
+    return resps, resps[-1]['tweet_id'] if resps else 0
 
 def save_jsons(key_phrases,max_ids = max_tweet_ids):
 
     for i in range(50):
         for key_phrase in key_phrases:
+            print(max_ids)
+            print(key_phrase,max_ids.get(key_phrase,2**64-1))
             resps, max_id = get_tweets(key_string=key_phrase,max_id=max_ids.get(key_phrase,2**64-1))
+            if max_id == 0:
+                key_phrases.remove(key_phrase)
+                del max_ids[key_phrase]
+                continue
             max_ids[key_phrase] = max_id - 1
-            with open("./data/{}_{}.json".format(key_phrase, max_id),"w") as json_file:
+            with open("./data/jsons_dir/{}_{}.json".format(key_phrase, max_id),"w") as json_file:
                 json.dump(resps, json_file)
+
+    # Rewrite the configs.py file
     with open("configs.py", "w") as pyfile:
-        pyfile.write(max_ids)
+        str1 = "api_key = '{}'\n".format(api_key)
+        str2 = "api_key_secret = '{}'\n".format(api_key_secret)
+        str3 = "access_token = '{}'\n".format(access_token)
+        str4 = "access_token_secret = '{}'\n".format(access_token_secret)
+
+        str5 = "max_tweet_ids = {\n" + "".join(
+            ["'" + key + "': " + str(max_ids[key] - 1) + ",\n" for key in max_ids]) + "}"
+
+        pyfile.writelines([str1, str2, str3, str4, "\n", str5])
 
 
 if __name__ == "__main__":
-    save_jsons(key_phrases=["is hiring", "are hiring"])
+    save_jsons(key_phrases=["'are hiring' 'machine learning'", "'is hiring' 'machine learning'"])
 
