@@ -1,4 +1,10 @@
 ## Twitter Analytics Program
+### Python and Packages
+```Python 3.9```
+```commandline
+pip install -r requirement.txt
+```
+
 
 This program contains parts:
 
