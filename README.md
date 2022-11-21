@@ -6,12 +6,12 @@ pip install -r requirement.txt
 ```
 
 ### About This Program
-This program contains several parts:
+This program contains several parts as follows:
 
 1. Tweets Crawler:
-   With using the TwitterAPI -- Tweepy, this program helps you crawl Twitter data by any keywords you want to match with the tweets within seven days.
+   With using the TwitterAPI -- Tweepy, this program helps crawl Twitter data with any keywords you intend to match with the tweets within seven days.
    By run the program,
-   Firstly, replace`<Your API KEY>， <Your API KEY SECRET>, <Your ACCESS TOKEN> and <Your ACCESS TOKEN SECRET>` with your API KEY, API KEY SECRET, ACCESS TOKEN and ACCESS TOKEN SECRET that you requested with your developer account.
+   Firstly, replace`<Your API KEY>， <Your API KEY SECRET>, <Your ACCESS TOKEN> and <Your ACCESS TOKEN SECRET>`in `configs.py` with your API KEY, API KEY SECRET, ACCESS TOKEN and ACCESS TOKEN SECRET that you requested with your developer account.
 
 ```
    api_key = <Your API KEY>
