@@ -5,7 +5,7 @@ This program contains parts:
 1. Tweets Crawler:
    With using the TwitterAPI -- Tweepy, this program helps you crawl Twitter data by any keywords you want to match with the tweets within seven days.
    By run the program,
-   Firstly, replace`<Your API KEY>， <Your API KEY SECRET>, <Your ACCESS TOKEN> and <Your ACCESS TOKEN SECRET>` with your API KEY (and KEY SECRET) and ACCESS TOKEN (and TOKEN SECRET) you requested with your developer account.
+   Firstly, replace`<Your API KEY>， <Your API KEY SECRET>, <Your ACCESS TOKEN> and <Your ACCESS TOKEN SECRET>` with your API KEY, API KEY SECRET, ACCESS TOKEN and ACCESS TOKEN SECRET that you requested with your developer account.
 
 ```
    api_key = <Your API KEY>
