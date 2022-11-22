@@ -20,13 +20,10 @@ This program contains several parts as follows:
    access_token = <Your ACCESS TOKEN>
    access_token_secret =  <Your ACCESS TOKEN SECRET>
 ```
-Secondly, enter the key-phrases you would like to match with the tweets in save_jsons of tweeter_crawler.py, and then run
+
+Then you can run `main.py` that will ask you to enter the key-phrases you want to match with the tweets:
 ```
-   python tweeter_crawler.py
-```
-You will get your json files in ./jsons_dir. You can run jsons2csv to transform them to a single csv file, by
-```commandline
-   python jsons2csv.py
+    python main.py
 ```
 
 2. Analyze the tweets from NLP tools, such as sPacy.

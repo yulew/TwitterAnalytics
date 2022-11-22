@@ -1,3 +1,5 @@
+import os.path
+
 import tweepy
 import json
 from configs import api_key,api_key_secret,access_token,access_token_secret
@@ -76,7 +78,7 @@ def get_tweets(key_string=None, language='en', number=500, max_id=2**64-1, resul
 
     return resps, resps[-1]['tweet_id'] if resps else 0
 
-def save_jsons(key_phrases,max_ids = max_tweet_ids):
+def tweets2jsons(key_phrases,max_ids = max_tweet_ids):
 
     for i in range(50):
         for key_phrase in key_phrases:
@@ -88,6 +90,11 @@ def save_jsons(key_phrases,max_ids = max_tweet_ids):
                 del max_ids[key_phrase]
                 continue
             max_ids[key_phrase] = max_id - 1
+
+            if not os.path.exists('./data/'):
+                os.mkdir('./data/')
+            if not os.path.exists('./data/jsons_dir/'):
+                os.mkdir('./data/jsons_dir/')
             with open("./data/jsons_dir/{}_{}.json".format(key_phrase, max_id),"w") as json_file:
                 json.dump(resps, json_file)
 
@@ -105,5 +112,5 @@ def save_jsons(key_phrases,max_ids = max_tweet_ids):
 
 
 if __name__ == "__main__":
-    save_jsons(key_phrases=["'are hiring' 'machine learning'", "'is hiring' 'machine learning'"])
+    tweets2jsons(key_phrases=["'are hiring' 'machine learning'", "'is hiring' 'machine learning'"])
 
